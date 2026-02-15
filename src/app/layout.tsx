@@ -1,5 +1,4 @@
 import "./globals.css"
-import Navbar from "@/components/layout/Navbar"
 import { Anton, Antonio, Inter } from "next/font/google"
 
 const anton = Anton({
@@ -27,7 +26,6 @@ export default function RootLayout({
   return(
     <html lang="es">
       <body className={`${anton.variable} ${antonio.variable} ${inter.variable} min-h-screen antialiased`}>
-        <Navbar/>
         {children}
       </body>
     </html>
