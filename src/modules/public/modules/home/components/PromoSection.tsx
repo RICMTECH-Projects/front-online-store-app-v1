@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { Button } from '../../../../shared/components/ui/button';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { SectionHeading } from '../../../../shared/components/ui/SectionHeading';
