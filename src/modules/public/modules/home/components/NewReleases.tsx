@@ -1,6 +1,6 @@
 'use client';
 
-import { SectionHeading } from '../../shared/components/ui/SectionHeading';
+import { SectionHeading } from '../../../../shared/components/ui/SectionHeading';
 import {
 	Carousel,
 	CarouselContent,

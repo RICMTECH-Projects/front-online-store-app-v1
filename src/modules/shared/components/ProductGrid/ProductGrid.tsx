@@ -1,6 +1,6 @@
 'use client';
 
-import { ProductCard } from '../../../public/components/ProductCard';
+import { ProductCard } from '../../../public/modules/home/components/ProductCard';
 import { SectionHeading } from '../ui/SectionHeading';
 import {
 	Select,
