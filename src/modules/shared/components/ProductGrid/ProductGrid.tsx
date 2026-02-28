@@ -53,7 +53,7 @@ export default function ProductGrid() {
 								<SheetHeader>
 									<SheetTitle className="font-anton text-2xl tracking-wide text-left mb-4">FILTROS</SheetTitle>
 								</SheetHeader>
-								<div className="space-y-6 mt-4">
+								<div className="space-y-6 px-4">
 									{FILTERS.map((section, idx) => (
 										<div key={idx} className="space-y-3">
 											<h3 className="font-semibold text-sm uppercase tracking-wider">{section.title}</h3>
