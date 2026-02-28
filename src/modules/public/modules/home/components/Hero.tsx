@@ -19,45 +19,58 @@ export default function Hero() {
 	return (
 		<section className='w-full mt-4 font-inter'>
 			<div className='relative overflow-hidden rounded-4xl aspect-9/16 sm:aspect-4/3 lg:aspect-video'>
-				<Image
-					src='/landing/hero.png'
-					alt='Imagen Hero'
-					fill
-					priority
-					className='object-cover'
-				/>
-				<div className='absolute inset-0 bg-black/70' />
+				{HERO_ITEMS.map((item, index) => (
+					<Image
+						key={`bg-${item.number}`}
+						src={item.image}
+						alt={item.title}
+						fill
+						priority={index === 0}
+						className={`object-cover transition-opacity duration-1000 ease-in-out ${
+							index === activeIndex ? 'opacity-100' : 'opacity-0'
+						}`}
+					/>
+				))}
+				
+				<div className='absolute inset-0 bg-black/60' />
 
 				<div className='relative z-10 text-white flex h-full flex-col justify-end p-4 sm:p-6 lg:p-8'>
-					<h1 className='max-w-xl flex text-3xl font-anton leading-tight sm:text-4xl lg:text-5xl'>
-						COLECCIONES LIMITADAS, ESTILO INFINITO
-					</h1>
-					<p className='mt-4 flex max-w-xl text-sm sm:text-base'>
-						Diseños únicos creados en pequeñas tandas. Una vez se agotan, no
-						vuelven. Autenticidad que se nota, exclusividad que se siente.
-					</p>
+					
+					<div 
+						key={`text-${activeIndex}`}
+						className='animate-in fade-in slide-in-from-bottom-4 duration-700'
+					>
+						<h1 className='max-w-xl flex text-3xl font-anton leading-tight sm:text-4xl lg:text-5xl uppercase'>
+							{HERO_ITEMS[activeIndex].title}
+						</h1>
+						<p className='mt-4 flex max-w-xl text-sm sm:text-base text-white/90'>
+							{HERO_ITEMS[activeIndex].description}
+						</p>
+					</div>
+
 					<div className='mt-6'>
 						<Link
-							href='/'
+							href='/catalogo'
 							className='inline-flex items-center p-2 rounded-full bg-white text-black hover:bg-gray-200 
-                            mb-8 lg:mb-0'>
-							<p className='px-3 sm:text-base'>Comprar ahora</p>
+                            mb-8 lg:mb-0 transition-colors'>
+							<p className='px-3 sm:text-base font-semibold'>Comprar ahora</p>
 							<ChevronRight className='bg-black text-white h-auto w-auto p-2 rounded-full' />
 						</Link>
 					</div>
 
-					<div className='mt-10 hidden xl:grid grid-cols-5 '>
+					<div className='mt-10 hidden xl:grid grid-cols-5'>
 						{HERO_ITEMS.map((item, index) => {
 							const isActive = index === activeIndex;
 
 							return (
 								<div
 									key={item.number}
-									className={`p-2 border-t-3 transition-colors duration-700 sm:p-5 lg:p-6
+									onClick={() => setActiveIndex(index)}
+									className={`p-2 border-t-3 transition-colors duration-700 sm:p-5 lg:p-6 cursor-pointer
                                         ${
 																					isActive
 																						? 'text-white border-white'
-																						: 'text-white/50 border-white/30'
+																						: 'text-white/50 border-white/30 hover:border-white/60 hover:text-white/80'
 																				}`}>
 									<p
 										className={`font-anton transition-colors text-lg duration-700 
