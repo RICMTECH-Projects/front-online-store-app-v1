@@ -8,8 +8,8 @@ export const NAVBAR_LINKS = [
 		href: '/catalogo',
 	},
 	{
-		label: 'Quienes Somos',
-		href: '/quienes-somos',
+		label: 'Sobre Nosotros',
+		href: '/sobre-nosotros',
 	},
 	{
 		label: 'Contacto',
