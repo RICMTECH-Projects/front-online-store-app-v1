@@ -6,9 +6,9 @@ import Image from 'next/image';
 const ContactPage = () => {
 	return (
 		<main className="w-full font-inter pb-16">
-			<div className="relative w-full aspect-[21/9] sm:aspect-[4/1] overflow-hidden">
+			<div className="relative w-full aspect-21/9 sm:aspect-4/1 overflow-hidden">
 				<Image
-					src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=2000&auto=format&fit=crop"
+					src="/landing/contact.avif"
 					alt="Contacto"
 					fill
 					priority
@@ -20,7 +20,7 @@ const ContactPage = () => {
 					<h1 className="text-3xl sm:text-5xl lg:text-6xl font-anton text-white tracking-wide animate-in fade-in slide-in-from-bottom-4 duration-700">
 						CONTACTO
 					</h1>
-					<p className="mt-4 sm:max-w-xl mx-auto text-sm sm:text-base text-white/90 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150 fill-mode-forwards opacity-0">
+					<p className="mt-4 sm:max-w-lg mx-auto text-sm sm:text-base text-white/90 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150 fill-mode-forwards">
 						¿Dudas, pedidos especiales o colaboraciones? Estamos listos para ayudarte. Escríbenos y te responderemos lo antes posible.
 					</p>
 				</div>
