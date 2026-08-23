@@ -1,5 +1,6 @@
 export const AUTH_ROUTES = {
 	home: "/",
+	account: "/mi-cuenta",
 	login: "/login",
 	register: "/registro",
 	recoverPassword: "/recuperar-contrasena",

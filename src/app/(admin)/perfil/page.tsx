@@ -1,4 +1,4 @@
-import { UserRound } from "lucide-react";
+import { AdminProfileForm } from "@/modules/admin/modules/profile/components/AdminProfileForm";
 
 export default function AdminProfilePage() {
 	return (
@@ -9,16 +9,10 @@ export default function AdminProfilePage() {
 			<h1 className="mt-2 font-antonio text-3xl font-semibold uppercase sm:text-4xl">
 				Perfil y configuracion
 			</h1>
-			<section className="mt-8 max-w-2xl border border-zinc-200 bg-white p-6">
-				<UserRound className="size-6 text-zinc-600" aria-hidden="true" />
-				<h2 className="mt-5 font-antonio text-xl font-semibold uppercase">
-					Preferencias de cuenta
-				</h2>
-				<p className="mt-2 text-sm leading-6 text-zinc-600">
-					Las opciones de perfil estarán disponibles al incorporar el recurso de
-					cuenta administrativa en el API.
-				</p>
-			</section>
+			<p className="mt-2 text-sm text-zinc-600">
+				Consulta y actualiza la informacion asociada a tu cuenta.
+			</p>
+			<AdminProfileForm />
 		</main>
 	);
 }

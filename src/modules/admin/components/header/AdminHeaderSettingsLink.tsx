@@ -1,17 +1,19 @@
-import { UserRound } from "lucide-react";
+import { Settings } from "lucide-react";
 import Link from "next/link";
 
-type AdminHeaderProfileLinkProps = {
+type AdminHeaderSettingsLinkProps = {
 	label: string;
 };
 
-export const AdminHeaderProfileLink = ({ label }: AdminHeaderProfileLinkProps) => (
+export const AdminHeaderSettingsLink = ({
+	label,
+}: AdminHeaderSettingsLinkProps) => (
 	<Link
 		href="/perfil"
 		aria-label={label}
 		title={label}
 		className="inline-flex size-9 items-center justify-center text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-950"
 	>
-		<UserRound className="size-5" />
+		<Settings className="size-5" aria-hidden="true" />
 	</Link>
 );

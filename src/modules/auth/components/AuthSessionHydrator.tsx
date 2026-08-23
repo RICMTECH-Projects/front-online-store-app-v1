@@ -13,6 +13,7 @@ export const AuthSessionHydrator = () => {
 		queryFn: getCurrentUser,
 		retry: false,
 		staleTime: 5 * 60 * 1000,
+		meta: { silentError: true },
 	});
 
 	useEffect(() => {

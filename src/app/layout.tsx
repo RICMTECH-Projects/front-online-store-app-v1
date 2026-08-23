@@ -2,6 +2,7 @@ import { TanstackProvider } from "@/modules/shared/providers/tanstack-query/Tans
 import "./globals.css";
 import { Anton, Antonio, Inter } from "next/font/google";
 import { Toaster } from "@/modules/shared/components/ui/sonner";
+import { AuthSessionHydrator } from "@/modules/auth/components/AuthSessionHydrator";
 
 const anton = Anton({
 	subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
 				className={`${anton.variable} ${antonio.variable} ${inter.variable} min-h-screen antialiased`}
 			>
 				<TanstackProvider>
+					<AuthSessionHydrator />
 					{children}
 					<Toaster />
 				</TanstackProvider>

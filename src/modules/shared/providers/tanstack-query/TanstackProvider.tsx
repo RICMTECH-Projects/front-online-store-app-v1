@@ -20,7 +20,13 @@ const showErrorToast = (error: unknown) => {
 
 const queryClient = new QueryClient({
 	mutationCache: new MutationCache({ onError: showErrorToast }),
-	queryCache: new QueryCache({ onError: showErrorToast }),
+	queryCache: new QueryCache({
+		onError: (error, query) => {
+			if (!query.meta?.silentError) {
+				showErrorToast(error);
+			}
+		},
+	}),
 });
 
 export const TanstackProvider = ({ children }: Props) => {

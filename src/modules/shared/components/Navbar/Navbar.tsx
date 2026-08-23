@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { NAVBAR_LINKS } from '../../constants/navbar.const';
-import { LucideShoppingCart, Heart, User, Search, Menu } from 'lucide-react';
+import { LucideShoppingCart, Heart, Menu } from 'lucide-react';
 import {
 	Sheet,
 	SheetContent,
@@ -10,6 +10,9 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from '@/modules/shared/components/ui/sheet';
+import { NavbarAccountLink } from './NavbarAccountLink';
+import { NavbarAdminDashboardLink } from './NavbarAdminDashboardLink';
+import { NavbarLogoutButton } from './NavbarLogoutButton';
 
 export default function Navbar() {
 	return (
@@ -39,10 +42,9 @@ export default function Navbar() {
 										</Link>
 									))}
 								</div>
-								<div className="mt-auto absolute bottom-8 left-6 flex flex-col gap-4 text-muted-foreground font-inter text-sm font-medium">
-									<Link href="/login" className="hover:text-foreground transition-colors flex items-center gap-2">
-										<User className="size-4" /> Mi Cuenta
-									</Link>
+				<div className="mt-auto absolute bottom-8 left-6 flex flex-col gap-4 text-muted-foreground font-inter text-sm font-medium">
+					<NavbarAdminDashboardLink variant="menu" />
+					<NavbarAccountLink variant="menu" />
 									<Link href="/" className="hover:text-foreground transition-colors flex items-center gap-2">
 										<Heart className="size-4" /> Wishlist
 									</Link>
@@ -74,20 +76,8 @@ export default function Navbar() {
 				</div>
 
 				<div className='flex items-center justify-end gap-1 sm:gap-3 lg:w-1/3'>
-					<button 
-						className='p-2 sm:p-2.5 text-foreground/80 hover:text-foreground hover:bg-muted/50 rounded-full transition-all'
-						aria-label="Buscar"
-					>
-						<Search className='size-5' />
-					</button>
-
-					<Link
-						href='/login'
-						className='p-2 sm:p-2.5 text-foreground/80 hover:text-foreground hover:bg-muted/50 rounded-full transition-all hidden sm:flex'
-						aria-label='Mi Cuenta'
-					>
-						<User className='size-5' />
-					</Link>
+					<NavbarAdminDashboardLink />
+					<NavbarAccountLink />
 
 					<Link
 						href='/'
@@ -108,6 +98,8 @@ export default function Navbar() {
 							<span className='relative inline-flex rounded-full size-2.5 bg-primary'></span>
 						</span>
 					</Link>
+
+					<NavbarLogoutButton />
 				</div>
 				
 			</nav>

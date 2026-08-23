@@ -1,12 +1,62 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { hasAuthSession } from "@/modules/auth/server/auth-session-request.server";
+import { AUTH_TOKEN_COOKIE } from "@/modules/auth/constants/auth-cookie.constants";
+import { AUTH_ROUTES } from "@/modules/auth/constants/auth.const";
+import {
+	canAccessCustomerAccount,
+	canAccessAdminRoute,
+	getRoleHomeRoute,
+	isGuestOnlyRoute,
+} from "@/modules/auth/utils/auth-authorization";
+import {
+	getRequestAuthUser,
+	hasAuthSession,
+} from "@/modules/auth/server/auth-session-request.server";
 
-export const proxy = (request: NextRequest) => {
-	if (hasAuthSession(request)) {
-		return NextResponse.next();
+const redirectToLogin = (request: NextRequest) => {
+	const response = NextResponse.redirect(new URL("/login", request.url));
+	response.cookies.delete(AUTH_TOKEN_COOKIE);
+
+	return response;
+};
+
+const continueAsGuest = () => {
+	const response = NextResponse.next();
+	response.cookies.delete(AUTH_TOKEN_COOKIE);
+
+	return response;
+};
+
+export const proxy = async (request: NextRequest) => {
+	const pathname = request.nextUrl.pathname;
+	const isGuestRoute = isGuestOnlyRoute(pathname);
+
+	if (!hasAuthSession(request)) {
+		return isGuestRoute ? NextResponse.next() : redirectToLogin(request);
 	}
 
-	return NextResponse.redirect(new URL("/login", request.url));
+	const user = await getRequestAuthUser(request);
+
+	if (!user) {
+		return isGuestRoute ? continueAsGuest() : redirectToLogin(request);
+	}
+
+	if (isGuestRoute) {
+		return NextResponse.redirect(
+			new URL(getRoleHomeRoute(user.roles), request.url),
+		);
+	}
+
+	if (pathname === AUTH_ROUTES.account) {
+		return canAccessCustomerAccount(user.roles)
+			? NextResponse.next()
+			: NextResponse.redirect(
+					new URL(getRoleHomeRoute(user.roles), request.url),
+				);
+	}
+
+	return canAccessAdminRoute(pathname, user.roles)
+		? NextResponse.next()
+		: NextResponse.rewrite(new URL("/_not-found", request.url));
 };
 
 export const config = {
@@ -22,5 +72,8 @@ export const config = {
 		"/fulfillment/:path*",
 		"/envios/:path*",
 		"/perfil/:path*",
+		"/mi-cuenta/:path*",
+		"/login/:path*",
+		"/registro/:path*",
 	],
 };
