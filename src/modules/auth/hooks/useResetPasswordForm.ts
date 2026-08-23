@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import type { ResetPasswordRequest } from "@/modules/auth/interfaces/reset-password.interface";
 import {
 	type ResetPasswordFormValues,
 	resetPasswordSchema,
