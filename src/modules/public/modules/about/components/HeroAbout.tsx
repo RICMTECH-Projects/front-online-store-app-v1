@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 
 export function HeroAbout() {
 	return (
@@ -20,7 +20,7 @@ export function HeroAbout() {
 						NUESTRA HISTORIA
 					</h1>
 					<p className="mt-8 max-w-2xl text-white/70 font-inter text-sm sm:text-base lg:text-lg animate-in fade-in slide-in-from-bottom-5 duration-1000 delay-150 fill-mode-forwards ">
-						Más que una tienda, somos un movimiento de estilo y exclusividad. 
+						Más que una tienda, somos un movimiento de estilo y exclusividad.
 						Conoce el origen de nuestra pasión por la moda urbana y premium.
 					</p>
 				</div>

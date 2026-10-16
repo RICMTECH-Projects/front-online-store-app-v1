@@ -1,12 +1,13 @@
-import { Metadata } from 'next';
-import { HeroAbout } from '@/modules/public/modules/about/components/HeroAbout';
-import { MissionSection } from '@/modules/public/modules/about/components/MissionSection';
-import { ValuesSection } from '@/modules/public/modules/about/components/ValuesSection';
-import { CTASection } from '@/modules/public/modules/about/components/CTASection';
+import type { Metadata } from "next";
+import { CTASection } from "@/modules/public/modules/about/components/CTASection";
+import { HeroAbout } from "@/modules/public/modules/about/components/HeroAbout";
+import { MissionSection } from "@/modules/public/modules/about/components/MissionSection";
+import { ValuesSection } from "@/modules/public/modules/about/components/ValuesSection";
 
 export const metadata: Metadata = {
-	title: 'Sobre Nosotros - E-commerce',
-	description: 'Descubre nuestra historia, filosofía y los pilares que nos hacen diferentes.',
+	title: "Sobre Nosotros - E-commerce",
+	description:
+		"Descubre nuestra historia, filosofía y los pilares que nos hacen diferentes.",
 };
 
 export default function SobreNosotrosPage() {

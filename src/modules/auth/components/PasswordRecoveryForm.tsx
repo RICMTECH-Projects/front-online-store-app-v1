@@ -13,7 +13,7 @@ import { FormInput } from "@/modules/shared/components/forms/FormInput";
 import { AuthHeader } from "./AuthHeader";
 
 export const PasswordRecoveryForm = () => {
-	const { form, retry, submittedEmail, handleSubmit } =
+	const { form, retry, submittedEmail, handleSubmit, isPending } =
 		usePasswordRecoveryForm();
 
 	return (
@@ -30,7 +30,7 @@ export const PasswordRecoveryForm = () => {
 				<FormProvider {...form}>
 					<AuthHeader
 						title="Recuperar contraseña"
-						description="Ingresa tu correo electronico y te enviaremos un enlace para restablecer tu contraseña."
+						description="Ingresa tu correo electrónico para registrar una solicitud de recuperación."
 					/>
 
 					<form
@@ -52,35 +52,52 @@ export const PasswordRecoveryForm = () => {
 							}
 						/>
 
-						<button type="submit" className={AUTH_SUBMIT_CLASS}>
-							Enviar enlace de recuperacion
+						{form.formState.errors.root?.message && (
+							<p role="alert" className="text-sm text-destructive">
+								{form.formState.errors.root.message}
+							</p>
+						)}
+
+						<button
+							type="submit"
+							disabled={isPending}
+							className={`${AUTH_SUBMIT_CLASS} disabled:cursor-not-allowed disabled:opacity-50`}
+						>
+							{isPending ? "Enviando solicitud..." : "Solicitar recuperación"}
 						</button>
 					</form>
 				</FormProvider>
 			) : (
-				<div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+				<div
+					role="status"
+					aria-live="polite"
+					className="animate-in fade-in slide-in-from-bottom-4 duration-500"
+				>
 					<div className="flex flex-col items-center text-center">
 						<div className="mb-6 rounded-full bg-primary/10 p-4">
 							<CheckCircle2 className="size-10 text-foreground" />
 						</div>
 						<h2 className="mb-3 font-anton text-2xl uppercase tracking-wide">
-							Correo enviado
+							Solicitud recibida
 						</h2>
 						<p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-							Hemos enviado un enlace de recuperacion a{" "}
+							Registramos la solicitud para{" "}
 							<span className="font-medium text-foreground">
 								{submittedEmail}
 							</span>
-							. Revisa tu bandeja de entrada y sigue las instrucciones.
+							. El backend todavía no tiene configurado el envío de correos, así
+							que no llegará un enlace. Contacta a soporte para recuperar el
+							acceso.
 						</p>
 						<p className="mt-4 text-xs text-muted-foreground/70">
-							¿No recibiste el correo? Revisa tu carpeta de spam o{" "}
+							¿Necesitas ingresar otro correo?{" "}
 							<button
 								type="button"
 								onClick={retry}
+								aria-label="Ingresar otro correo electrónico"
 								className="text-foreground underline underline-offset-4 transition-opacity hover:opacity-80"
 							>
-								intenta de nuevo
+								Ingresar otro
 							</button>
 						</p>
 					</div>

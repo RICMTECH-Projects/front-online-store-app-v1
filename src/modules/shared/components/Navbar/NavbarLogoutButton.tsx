@@ -1,8 +1,7 @@
 "use client";
 
 import { LogOut } from "lucide-react";
-import { useLogout } from "@/modules/auth/hooks/use-logout";
-import { useAuthStore } from "@/modules/auth/store/useAuthStore";
+import { useAuthStore, useLogout } from "@/modules/auth";
 
 export const NavbarLogoutButton = () => {
 	const isAuthenticated = useAuthStore((state) => Boolean(state.user));

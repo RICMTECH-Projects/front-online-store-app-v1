@@ -2,8 +2,7 @@
 
 import { User } from "lucide-react";
 import Link from "next/link";
-import { AUTH_ROUTES } from "@/modules/auth/constants/auth.const";
-import { useAuthStore } from "@/modules/auth/store/useAuthStore";
+import { useNavbarAccountLink } from "@/modules/shared/hooks/use-navbar-account-link";
 import { cn } from "@/modules/shared/lib/utils";
 
 type NavbarAccountLinkProps = {
@@ -13,27 +12,7 @@ type NavbarAccountLinkProps = {
 export const NavbarAccountLink = ({
 	variant = "icon",
 }: NavbarAccountLinkProps) => {
-	const user = useAuthStore((state) => state.user);
-	const initial = (user?.firstName || user?.email || "")
-		.trim()
-		.charAt(0)
-		.toUpperCase();
-	const isAdmin = user?.roles.includes("ADMIN") ?? false;
-
-	if (isAdmin) return null;
-
-	const href = user
-		? user.roles.includes("SELLER")
-			? "/dashboard"
-			: AUTH_ROUTES.account
-		: AUTH_ROUTES.login;
-	const isBackOfficeLink = href === "/dashboard";
-	const label = isBackOfficeLink
-		? "Volver al panel administrativo"
-		: user
-			? `Cuenta de ${user.firstName} ${user.lastName}`.trim()
-			: "Mi Cuenta";
-
+	const { initial, href, label, linkText } = useNavbarAccountLink();
 	if (variant === "menu") {
 		return (
 			<Link
@@ -48,7 +27,7 @@ export const NavbarAccountLink = ({
 				) : (
 					<User className="size-4" aria-hidden="true" />
 				)}
-				{isBackOfficeLink ? "Volver al panel" : "Mi Cuenta"}
+				{linkText}
 			</Link>
 		);
 	}

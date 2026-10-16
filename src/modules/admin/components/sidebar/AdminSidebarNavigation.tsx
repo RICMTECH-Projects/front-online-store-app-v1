@@ -1,8 +1,7 @@
 "use client";
 
 import { ADMIN_NAVIGATION } from "@/modules/admin/constants/admin-navigation.constants";
-import { useAuthStore } from "@/modules/auth/store/useAuthStore";
-import { canAccessAdminRoute } from "@/modules/auth/utils/auth-authorization";
+import { canAccessAdminRoute, useAuthStore } from "@/modules/auth";
 import { AdminSidebarNavGroup } from "./AdminSidebarNavGroup";
 import { AdminSidebarNavItem } from "./AdminSidebarNavItem";
 

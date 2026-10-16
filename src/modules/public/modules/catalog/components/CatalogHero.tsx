@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
+import Image from "next/image";
 
 export function CatalogHero() {
 	return (
@@ -11,7 +11,7 @@ export function CatalogHero() {
 					alt="Catálogo"
 					fill
 					priority
-					className="object-cover object-center" 
+					className="object-cover object-center"
 				/>
 				<div className="absolute inset-0 bg-black/50" />
 
@@ -20,7 +20,8 @@ export function CatalogHero() {
 						COLECCIÓN COMPLETA
 					</h1>
 					<p className="mt-3 text-white/90 text-sm sm:text-base font-inter max-w-xl animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150 fill-mode-forwards">
-						Encuentra tu próximo esencial. Diseños audaces y telas premium listas para la calle.
+						Encuentra tu próximo esencial. Diseños audaces y telas premium
+						listas para la calle.
 					</p>
 				</div>
 			</div>

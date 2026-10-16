@@ -1,18 +1,18 @@
 export const NAVBAR_LINKS = [
 	{
-		label: 'Inicio',
-		href: '/',
+		label: "Inicio",
+		href: "/",
 	},
 	{
-		label: 'Catalogo',
-		href: '/catalogo',
+		label: "Catalogo",
+		href: "/catalogo",
 	},
 	{
-		label: 'Sobre Nosotros',
-		href: '/sobre-nosotros',
+		label: "Sobre Nosotros",
+		href: "/sobre-nosotros",
 	},
 	{
-		label: 'Contacto',
-		href: '/contacto',
+		label: "Contacto",
+		href: "/contacto",
 	},
 ];

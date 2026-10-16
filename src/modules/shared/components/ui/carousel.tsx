@@ -121,21 +121,21 @@ function Carousel({
 				canScrollNext,
 			}}
 		>
-			<div
+			<section
 				onKeyDownCapture={handleKeyDown}
 				className={cn("relative", className)}
-				role="region"
+				aria-label="Carrusel"
 				aria-roledescription="carousel"
 				data-slot="carousel"
 				{...props}
 			>
 				{children}
-			</div>
+			</section>
 		</CarouselContext.Provider>
 	);
 }
 
-function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
+function CarouselContent({ className, ...props }: React.ComponentProps<"ul">) {
 	const { carouselRef, orientation } = useCarousel();
 
 	return (
@@ -144,9 +144,9 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
 			className="overflow-hidden"
 			data-slot="carousel-content"
 		>
-			<div
+			<ul
 				className={cn(
-					"flex",
+					"m-0 flex list-none p-0",
 					orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
 					className,
 				)}
@@ -156,12 +156,11 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
 	);
 }
 
-function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
+function CarouselItem({ className, ...props }: React.ComponentProps<"li">) {
 	const { orientation } = useCarousel();
 
 	return (
-		<div
-			role="group"
+		<li
 			aria-roledescription="slide"
 			data-slot="carousel-item"
 			className={cn(

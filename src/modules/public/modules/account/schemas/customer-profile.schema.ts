@@ -12,6 +12,4 @@ export const customerProfileSchema = z.object({
 	lastName: profileName("apellido"),
 });
 
-export type CustomerProfileFormValues = z.infer<
-	typeof customerProfileSchema
->;
+export type CustomerProfileFormValues = z.infer<typeof customerProfileSchema>;

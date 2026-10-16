@@ -2,7 +2,7 @@
 
 import { ChartNoAxesCombined } from "lucide-react";
 import Link from "next/link";
-import { useAuthStore } from "@/modules/auth/store/useAuthStore";
+import { useAuthStore } from "@/modules/auth";
 
 type NavbarAdminDashboardLinkProps = {
 	variant?: "icon" | "menu";

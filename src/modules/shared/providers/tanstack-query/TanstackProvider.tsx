@@ -19,7 +19,11 @@ const showErrorToast = (error: unknown) => {
 };
 
 const queryClient = new QueryClient({
-	mutationCache: new MutationCache({ onError: showErrorToast }),
+	mutationCache: new MutationCache({
+		onError: (error, _variables, _context, mutation) => {
+			if (!mutation.meta?.silentError) showErrorToast(error);
+		},
+	}),
 	queryCache: new QueryCache({
 		onError: (error, query) => {
 			if (!query.meta?.silentError) {

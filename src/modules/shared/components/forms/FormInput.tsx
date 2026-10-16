@@ -1,6 +1,7 @@
-import { Eye, EyeOff } from "lucide-react";
-import type { ComponentProps, ReactNode } from "react";
-import { useState } from "react";
+"use client";
+
+import type { ReactNode } from "react";
+import { useId } from "react";
 import {
 	type Control,
 	Controller,
@@ -8,116 +9,87 @@ import {
 	type FieldValues,
 } from "react-hook-form";
 import { Input } from "@/modules/shared/components/ui/input";
-import { cn } from "@/modules/shared/lib/utils";
 
-type NativeInputProps = Omit<
-	ComponentProps<typeof Input>,
-	"name" | "value" | "defaultValue"
->;
-
-type FormInputProps<TFieldValues extends FieldValues> = NativeInputProps & {
-	control: Control<TFieldValues>;
-	containerClassName?: string;
+type FormInputProps<
+	TValues extends FieldValues,
+	TContext,
+	TOutput extends FieldValues,
+> = Omit<
+	React.ComponentProps<typeof Input>,
+	"name" | "value" | "defaultValue" | "onChange" | "onBlur"
+> & {
+	control: Control<TValues, TContext, TOutput>;
+	name: FieldPath<TValues>;
+	label: string;
+	description?: string;
+	startAdornment?: ReactNode;
 	endAdornment?: ReactNode;
-	errorClassName?: string;
-	inputClassName?: string;
-	label?: ReactNode;
-	labelClassName?: string;
-	name: FieldPath<TFieldValues>;
-	passwordToggle?: boolean;
 };
 
-export const FormInput = <TFieldValues extends FieldValues>({
-	className,
+export function FormInput<
+	TValues extends FieldValues,
+	TContext = unknown,
+	TOutput extends FieldValues = TValues,
+>({
 	control,
-	containerClassName,
-	endAdornment,
-	errorClassName,
-	id,
-	inputClassName,
-	label,
-	labelClassName,
 	name,
-	onBlur,
-	onChange,
-	passwordToggle = true,
-	type,
+	label,
+	description,
+	startAdornment,
+	endAdornment,
+	id: providedId,
 	...inputProps
-}: FormInputProps<TFieldValues>) => {
-	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-	const inputId = id ?? name;
-	const canTogglePassword = type === "password" && passwordToggle;
-	const hasAdornment = Boolean(endAdornment) || canTogglePassword;
-	const inputType = canTogglePassword && isPasswordVisible ? "text" : type;
+}: FormInputProps<TValues, TContext, TOutput>) {
+	const generatedId = useId();
+	const id = providedId ?? generatedId;
+	const descriptionId = description ? `${id}-description` : undefined;
 
 	return (
 		<Controller
 			control={control}
 			name={name}
-			render={({ field, fieldState }) => (
-				<div className={cn("flex flex-col gap-2", containerClassName)}>
-					{label && (
-						<label
-							htmlFor={inputId}
-							className={cn(
-								"text-sm font-medium text-foreground",
-								labelClassName,
-							)}
-						>
+			render={({ field, fieldState }) => {
+				const errorId = fieldState.error ? `${id}-error` : undefined;
+				const describedBy =
+					[descriptionId, errorId].filter(Boolean).join(" ") || undefined;
+				const value =
+					typeof field.value === "string" || typeof field.value === "number"
+						? field.value
+						: "";
+
+				return (
+					<div className="grid gap-2">
+						<label htmlFor={id} className="text-sm font-medium">
 							{label}
 						</label>
-					)}
-
-					<div className={cn(hasAdornment && "relative")}>
-						<Input
-							{...inputProps}
-							{...field}
-							id={inputId}
-							type={inputType}
-							value={field.value ?? ""}
-							className={cn(
-								className,
-								inputClassName,
-								canTogglePassword && "pr-12",
-							)}
-							aria-invalid={Boolean(fieldState.error)}
-							onBlur={(event) => {
-								field.onBlur();
-								onBlur?.(event);
-							}}
-							onChange={(event) => {
-								field.onChange(event.target.value);
-								onChange?.(event);
-							}}
-						/>
-						{endAdornment}
-						{canTogglePassword && (
-							<button
-								type="button"
-								onClick={() => setIsPasswordVisible((visible) => !visible)}
-								className="absolute right-3 top-1/2 min-h-10 min-w-10 -translate-y-1/2 p-2 text-muted-foreground transition-colors"
-								aria-label={
-									isPasswordVisible
-										? "Ocultar contraseña"
-										: "Mostrar contraseña"
-								}
-							>
-								{isPasswordVisible ? (
-									<EyeOff className="size-4" />
-								) : (
-									<Eye className="size-4" />
-								)}
-							</button>
+						<div className="relative">
+							{startAdornment}
+							<Input
+								{...inputProps}
+								id={id}
+								name={field.name}
+								value={value}
+								onChange={field.onChange}
+								onBlur={field.onBlur}
+								ref={field.ref}
+								aria-invalid={fieldState.invalid || inputProps["aria-invalid"]}
+								aria-describedby={describedBy}
+							/>
+							{endAdornment}
+						</div>
+						{description && (
+							<p id={descriptionId} className="text-xs text-muted-foreground">
+								{description}
+							</p>
+						)}
+						{fieldState.error?.message && (
+							<p id={errorId} role="alert" className="text-xs text-destructive">
+								{fieldState.error.message}
+							</p>
 						)}
 					</div>
-
-					{fieldState.error?.message && (
-						<p className={cn("text-xs text-destructive", errorClassName)}>
-							{fieldState.error.message}
-						</p>
-					)}
-				</div>
-			)}
+				);
+			}}
 		/>
 	);
-};
+}

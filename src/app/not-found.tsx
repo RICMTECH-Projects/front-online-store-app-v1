@@ -5,7 +5,7 @@ export default function NotFoundPage() {
 		<main className="flex min-h-screen items-center justify-center bg-white px-5 text-zinc-950">
 			<section className="max-w-lg text-center">
 				<p className="font-anton text-8xl leading-none">404</p>
-				<p className="mt-6 text-xs font-semibold uppercase tracking-[0.16em] text-zinc-500">
+				<p className="mt-6 text-xs font-semibold uppercase tracking-label text-zinc-500">
 					Pagina no encontrada
 				</p>
 				<h1 className="mt-3 font-antonio text-3xl font-semibold uppercase sm:text-4xl">

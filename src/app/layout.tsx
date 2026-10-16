@@ -1,8 +1,8 @@
 import { TanstackProvider } from "@/modules/shared/providers/tanstack-query/TanstackProvider";
 import "./globals.css";
 import { Anton, Antonio, Inter } from "next/font/google";
-import { Toaster } from "@/modules/shared/components/ui/sonner";
 import { AuthSessionHydrator } from "@/modules/auth/components/AuthSessionHydrator";
+import { Toaster } from "@/modules/shared/components/ui/sonner";
 
 const anton = Anton({
 	subsets: ["latin"],

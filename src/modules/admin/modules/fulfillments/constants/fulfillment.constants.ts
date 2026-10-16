@@ -1,0 +1,1 @@
+export const FULFILLMENT_PAGE_SIZE = 20;

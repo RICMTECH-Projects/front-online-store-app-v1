@@ -1,8 +1,9 @@
-import { isAxiosError, type AxiosResponse } from 'axios';
-import { HttpError, type HttpProviderOptions } from '../http.interface';
-import { extractErrorMessage, isNetworkError } from '../utils/http.utils';
+import { type AxiosResponse, isAxiosError } from "axios";
+import { HttpError, type HttpProviderOptions } from "../http.interface";
+import { extractErrorMessage, isNetworkError } from "../utils/http.utils";
 
-export const handleSuccessfulResponse = <T>(response: AxiosResponse<T>) => response;
+export const handleSuccessfulResponse = <T>(response: AxiosResponse<T>) =>
+	response;
 
 export const createResponseErrorInterceptor = ({
 	onServiceUnavailable,
@@ -13,8 +14,8 @@ export const createResponseErrorInterceptor = ({
 			return Promise.reject(
 				new HttpError({
 					details: error,
-					message: 'No se pudo conectar con el servicio.',
-					type: 'network_error',
+					message: "No se pudo conectar con el servicio.",
+					type: "network_error",
 				}),
 			);
 		}
@@ -25,9 +26,13 @@ export const createResponseErrorInterceptor = ({
 				message: await extractErrorMessage(error.response?.data),
 				status: error.response?.status,
 				type: error.code ?? error.name,
+				correlationId: error.response?.headers?.["x-correlation-id"],
 			});
 
-			if (normalizedError.status === 401) {
+			if (
+				normalizedError.status === 401 &&
+				!error.config?.url?.includes("/auth/login")
+			) {
 				onUnauthorized?.(normalizedError);
 			}
 

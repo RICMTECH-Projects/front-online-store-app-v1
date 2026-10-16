@@ -1,9 +1,10 @@
 import axios, {
-	type AxiosRequestConfig,
 	type AxiosInstance,
+	type AxiosRequestConfig,
 	type AxiosResponse,
 	type ResponseType,
 } from "axios";
+import { AUTH_SESSION_EXPIRED_EVENT } from "../../constants/app-events.constants";
 import type {
 	BaseResponse,
 	HttpBlobResponse,
@@ -16,7 +17,7 @@ import {
 	handleSuccessfulResponse,
 } from "./interceptors/response.interceptor";
 
-const DEFAULT_TIMEOUT = 1_000_000;
+const DEFAULT_TIMEOUT = 30_000;
 
 const getResponseConfig = (expectedType?: HttpExpectedType) => {
 	if (expectedType === "Blob" || expectedType === "File") {
@@ -64,9 +65,12 @@ export class HttpProvider {
 			method,
 			url: endpoint,
 		};
-		const response = await instance.request<BaseResponse<TResponse>>(
-			requestConfig,
-		);
+		const response =
+			await instance.request<BaseResponse<TResponse>>(requestConfig);
+
+		if (response.status === 204) {
+			return undefined as TResponse;
+		}
 
 		if (expectedType === "Blob" || expectedType === "File") {
 			return {
@@ -113,6 +117,11 @@ export class HttpProvider {
 
 export const httpProvider = new HttpProvider({
 	baseURL: "/api",
+	onUnauthorized: () => {
+		if (typeof window !== "undefined") {
+			window.dispatchEvent(new Event(AUTH_SESSION_EXPIRED_EVENT));
+		}
+	},
 });
 
 export const httpClient = <TResponse = unknown, TBody = unknown>(

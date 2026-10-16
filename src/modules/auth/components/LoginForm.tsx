@@ -12,7 +12,7 @@ import { FormInput } from "@/modules/shared/components/forms/FormInput";
 import { AuthHeader } from "./AuthHeader";
 
 export const LoginForm = () => {
-	const { form, handleSubmit } = useLoginForm();
+	const { form, handleSubmit, isPending } = useLoginForm();
 
 	return (
 		<FormProvider {...form}>
@@ -53,8 +53,18 @@ export const LoginForm = () => {
 					</Link>
 				</div>
 
-				<button type="submit" className={`${AUTH_SUBMIT_CLASS} mt-1`}>
-					Iniciar sesion
+				{form.formState.errors.root?.message && (
+					<p role="alert" className="text-sm text-destructive">
+						{form.formState.errors.root.message}
+					</p>
+				)}
+
+				<button
+					type="submit"
+					disabled={isPending}
+					className={`${AUTH_SUBMIT_CLASS} mt-1 disabled:cursor-not-allowed disabled:opacity-50`}
+				>
+					{isPending ? "Iniciando sesión..." : "Iniciar sesión"}
 				</button>
 			</form>
 

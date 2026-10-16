@@ -1,72 +1,59 @@
-'use client';
+"use client";
 
-import { SectionHeading } from '../../../../shared/components/ui/SectionHeading';
-import {
-	Carousel,
-	CarouselContent,
-	CarouselItem,
-	CarouselNext,
-	CarouselPrevious,
-} from '@/modules/shared/components/ui/carousel';
-import { ProductCard } from './ProductCard';
-import Autoplay from 'embla-carousel-autoplay';
-
-const IMAGES = [
-	'https://images.unsplash.com/photo-1578681994506-b8f463449011?q=80&w=1500&auto=format&fit=crop',
-	'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=1500&auto=format&fit=crop',
-	'https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=1500&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1500&auto=format&fit=crop',
-	'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1500&auto=format&fit=crop',
-];
+import { SectionHeading } from "@/modules/shared/components/ui/SectionHeading";
+import { PublicProductCard } from "../../catalog/components/PublicProductCard";
+import { usePublicProducts } from "../../catalog/hooks/use-public-store";
 
 export function NewReleases() {
+	const products = usePublicProducts();
 	return (
-		<section className='w-full font-inter mt-10 sm:mt-16'>
+		<section className="mt-10 w-full font-inter sm:mt-16">
 			<SectionHeading
-				title='NUEVOS LANZAMIENTOS'
-				description='DESTACA CON NUESTRA ULTIMA COLECCION: DISEÑOS 
-                    AUDACES, TELAS PREMIUM Y UN ESTILO URBANO 
-                    LISTO PARA LA CALLE'
+				title="PRODUCTOS DESTACADOS"
+				description="Explora productos activos disponibles en nuestro catálogo."
 			/>
-			<div className='mt-6 md:mt-10 lg:mt-12 overflow-visible px-4'>
-				<Carousel
-					className='w-full'
-					opts={{
-						loop: true,
-					}}
-					plugins={[
-						Autoplay({
-							delay: 4000,
-							stopOnInteraction: false,
-						}),
-					]}>
-					<CarouselContent className="-ml-2 md:-ml-4 pt-4 pb-12">
-						{IMAGES.map((imgSrc, index) => (
-							<CarouselItem
-								key={index}
-								className='pl-2 md:pl-4 basis-[85%] sm:basis-1/2 lg:basis-1/3 xl:basis-1/4'>
-								<div className='h-full'>
-									<ProductCard
-										title={`URBAN TEAR VOL ${index + 1}`}
-										description='URBAN PHANTOM SERIES - OVERSIZED FIT WITH EDGY GRAPHICS. HIGH QUALITY MATERIALS.'
-										price={150}
-										oldPrice={index % 2 === 0 ? 180 : undefined}
-										image={imgSrc}
-									/>
-								</div>
-							</CarouselItem>
-						))}
-					</CarouselContent>
-					<CarouselPrevious
-						className='hidden md:flex justify-center items-center absolute -left-4 xl:-left-12'
-						variant='default'
-					/>
-					<CarouselNext
-						className='hidden md:flex justify-center items-center absolute -right-4 xl:-right-12'
-						variant='default'
-					/>
-				</Carousel>
-			</div>
+			{products.isPending ? (
+				<div
+					role="status"
+					aria-label="Cargando productos"
+					className="mt-8 grid grid-cols-2 gap-5 lg:grid-cols-4"
+				>
+					{[
+						"release-skeleton-one",
+						"release-skeleton-two",
+						"release-skeleton-three",
+						"release-skeleton-four",
+					].map((skeletonId) => (
+						<div
+							key={skeletonId}
+							className="aspect-3/4 animate-pulse bg-zinc-100"
+						/>
+					))}
+				</div>
+			) : products.isError ? (
+				<div className="mt-8 border border-zinc-200 p-6">
+					<p role="alert" className="text-sm">
+						No pudimos cargar el catálogo.
+					</p>
+					<button
+						type="button"
+						onClick={() => void products.refetch()}
+						className="mt-3 underline underline-offset-4"
+					>
+						Intentar de nuevo
+					</button>
+				</div>
+			) : products.data.length === 0 ? (
+				<p className="mt-8 border border-dashed border-zinc-300 p-8 text-sm text-zinc-600">
+					Todavía no hay productos publicados.
+				</p>
+			) : (
+				<div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-9 sm:gap-x-6 lg:grid-cols-4">
+					{products.data.slice(0, 8).map((product) => (
+						<PublicProductCard key={product.id} product={product} />
+					))}
+				</div>
+			)}
 		</section>
 	);
 }

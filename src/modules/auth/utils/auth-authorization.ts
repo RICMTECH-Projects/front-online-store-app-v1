@@ -23,13 +23,16 @@ export const canAccessAdminRoute = (pathname: string, roles: string[]) => {
 		({ path }) => pathname === path || pathname.startsWith(`${path}/`),
 	);
 
-	return rule ? roles.some((role) => rule.roles.includes(role as UserRole)) : false;
+	return rule
+		? roles.some((role) => rule.roles.includes(role as UserRole))
+		: false;
 };
 
 export const canAccessCustomerAccount = (roles: string[]) =>
-	roles.includes("CUSTOMER") &&
-	!roles.includes("ADMIN") &&
-	!roles.includes("SELLER");
+	roles.includes("CUSTOMER");
+
+export const canAccessPasswordChange = (roles: string[]) =>
+	roles.includes("CUSTOMER") || roles.includes("ADMIN");
 
 export const isGuestOnlyRoute = (pathname: string) =>
 	GUEST_ONLY_ROUTES.some(

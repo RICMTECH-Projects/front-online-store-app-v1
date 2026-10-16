@@ -5,17 +5,13 @@ import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useAuthStore } from "@/modules/auth/store/useAuthStore";
+import { useAuthStore } from "@/modules/auth";
+import { EMPTY_PROFILE } from "../constants/profile-form-defaults.constants";
 import {
 	type AdminProfileFormValues,
 	adminProfileSchema,
 } from "../schemas/admin-profile.schema";
 import { updateAdminProfile } from "../services/update-admin-profile.service";
-
-const EMPTY_PROFILE = {
-	firstName: "",
-	lastName: "",
-};
 
 export const useAdminProfileForm = () => {
 	const user = useAuthStore((state) => state.user);

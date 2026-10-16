@@ -8,28 +8,35 @@ import {
 	type PasswordRecoveryFormValues,
 	passwordRecoverySchema,
 } from "@/modules/auth/schemas/password-recovery/password-recovery.schema";
+import { RECOVERY_DEFAULT_VALUES } from "../constants/auth-form-defaults.constants";
 import { recoveryPassword } from "../services/recovery-password.service";
-
-const DEFAULT_VALUES = {
-	email: "",
-};
 
 export const usePasswordRecoveryForm = () => {
 	const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
 
 	const form = useForm<PasswordRecoveryFormValues>({
-		defaultValues: DEFAULT_VALUES,
+		defaultValues: RECOVERY_DEFAULT_VALUES,
 		mode: "onBlur",
 		resolver: zodResolver(passwordRecoverySchema),
 	});
 
-	const { mutateAsync: recoveryPasswordAsync } = useMutation({
+	const mutation = useMutation({
 		mutationFn: recoveryPassword,
+		meta: { silentError: true },
 	});
 
 	const handleSubmit = async (data: PasswordRecoveryFormValues) => {
-		await recoveryPasswordAsync(data);
-		setSubmittedEmail(data.email);
+		form.clearErrors("root");
+
+		try {
+			await mutation.mutateAsync(data);
+			setSubmittedEmail(data.email);
+		} catch {
+			form.setError("root", {
+				type: "server",
+				message: "No pudimos registrar la solicitud. Inténtalo de nuevo.",
+			});
+		}
 	};
 
 	const retry = () => {
@@ -38,6 +45,7 @@ export const usePasswordRecoveryForm = () => {
 
 	return {
 		form,
+		isPending: mutation.isPending,
 		retry,
 		submittedEmail,
 		handleSubmit: form.handleSubmit(handleSubmit),

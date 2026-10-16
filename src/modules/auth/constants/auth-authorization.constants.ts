@@ -10,18 +10,18 @@ type RouteAccess = {
 export const ROLE_HOME_ROUTES: Record<UserRole, string> = {
 	ADMIN: "/dashboard",
 	CUSTOMER: "/",
-	SELLER: "/dashboard",
+	SELLER: "/vendedor",
 };
 
 export const GUEST_ONLY_ROUTES = ["/login", "/registro"] as const;
 
 export const ADMIN_ROUTE_ACCESS: readonly RouteAccess[] = [
-	{ path: "/dashboard", roles: ["ADMIN", "SELLER"] },
-	{ path: "/productos", roles: ["ADMIN", "SELLER"] },
-	{ path: "/marcas", roles: ["ADMIN", "SELLER"] },
-	{ path: "/categorias", roles: ["ADMIN", "SELLER"] },
-	{ path: "/fulfillment", roles: ["ADMIN", "SELLER"] },
-	{ path: "/envios", roles: ["ADMIN", "SELLER"] },
+	{ path: "/dashboard", roles: ["ADMIN"] },
+	{ path: "/productos", roles: ["ADMIN"] },
+	{ path: "/marcas", roles: ["ADMIN"] },
+	{ path: "/categorias", roles: ["ADMIN"] },
+	{ path: "/fulfillment", roles: ["ADMIN"] },
+	{ path: "/envios", roles: ["ADMIN"] },
 	{ path: "/perfil", roles: ["ADMIN"] },
 	{ path: "/vendedores", roles: ["ADMIN"] },
 	{ path: "/usuarios", roles: ["ADMIN"] },

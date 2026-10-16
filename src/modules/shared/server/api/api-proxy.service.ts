@@ -1,3 +1,4 @@
+import "server-only";
 import type { NextRequest } from "next/server";
 import {
 	getApiRequestBody,
@@ -7,18 +8,22 @@ import {
 
 type ForwardApiRequestParams = {
 	accessToken?: string;
+	correlationId?: string;
 	path: string[];
 	request: NextRequest;
+	body?: BodyInit;
 };
 
 export const forwardApiRequest = async ({
 	accessToken,
+	correlationId,
 	path,
 	request,
+	body,
 }: ForwardApiRequestParams) =>
 	fetch(getApiUpstreamUrl(path, request), {
-		body: await getApiRequestBody(request),
-		headers: getApiUpstreamHeaders(request, accessToken),
+		body: body ?? (await getApiRequestBody(request)),
+		headers: getApiUpstreamHeaders(request, accessToken, correlationId),
 		method: request.method,
 		cache: "no-store",
 	});

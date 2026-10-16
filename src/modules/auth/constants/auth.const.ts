@@ -1,6 +1,9 @@
 export const AUTH_ROUTES = {
 	home: "/",
 	account: "/mi-cuenta",
+	accountSecurity: "/mi-cuenta/seguridad",
+	adminProfile: "/perfil",
+	adminSecurity: "/perfil/seguridad",
 	login: "/login",
 	register: "/registro",
 	recoverPassword: "/recuperar-contrasena",
@@ -13,11 +16,10 @@ export const AUTH_BRAND = {
 
 export const AUTH_PANEL_COPY = {
 	login:
-		"Diseño urbano, esencia unica. Inicia sesion para acceder a tu cuenta y explorar lo nuevo.",
+		"Diseño urbano, esencia única. Inicia sesión para acceder a tu cuenta y explorar lo nuevo.",
 	register:
-		"Unete a la comunidad. Crea tu cuenta y descubre lo ultimo en moda urbana.",
-	recoverPassword:
-		"No te preocupes, te ayudamos a recuperar el acceso a tu cuenta de forma rapida y segura.",
+		"Únete a la comunidad. Crea tu cuenta y descubre lo último en moda urbana.",
+	recoverPassword: "Solicita ayuda para recuperar el acceso a tu cuenta.",
 	resetPassword:
 		"Elige una contraseña segura para volver a acceder a tu cuenta.",
 } as const;

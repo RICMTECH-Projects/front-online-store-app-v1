@@ -2,8 +2,8 @@
 
 import { ChevronDown, type LucideIcon } from "lucide-react";
 import Link from "next/link";
-import { useId, useState } from "react";
 import { cn } from "@/modules/shared/lib/utils";
+import { useAdminSidebarNavGroup } from "../../hooks/use-admin-sidebar-nav-group";
 
 type AdminSidebarNavGroupProps = {
 	icon: LucideIcon;
@@ -20,8 +20,7 @@ export const AdminSidebarNavGroup = ({
 	label,
 	pathname,
 }: AdminSidebarNavGroupProps) => {
-	const [isExpanded, setIsExpanded] = useState(isOpen);
-	const contentId = useId();
+	const { isExpanded, contentId, toggle } = useAdminSidebarNavGroup(isOpen);
 
 	return (
 		<div>
@@ -29,7 +28,7 @@ export const AdminSidebarNavGroup = ({
 				type="button"
 				aria-controls={contentId}
 				aria-expanded={isExpanded}
-				onClick={() => setIsExpanded((expanded) => !expanded)}
+				onClick={toggle}
 				className={cn(
 					"flex h-11 w-full items-center gap-3 rounded-md px-3 text-left text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-950",
 					isExpanded && "text-zinc-950",

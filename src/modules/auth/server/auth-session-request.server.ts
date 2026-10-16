@@ -1,3 +1,4 @@
+import "server-only";
 import type { NextRequest } from "next/server";
 import { AUTH_TOKEN_COOKIE } from "../constants/auth-cookie.constants";
 import type { AuthUser } from "../interfaces/auth-user.interface";
@@ -9,9 +10,8 @@ export const getRequestAuthUser = async (request: NextRequest) => {
 	const accessToken = request.cookies.get(AUTH_TOKEN_COOKIE)?.value;
 	const baseUrl = process.env.API_BASE_URL;
 
-	if (!accessToken || !baseUrl) {
-		return null;
-	}
+	if (!accessToken) return null;
+	if (!baseUrl) return undefined;
 
 	try {
 		const response = await fetch(`${baseUrl.replace(/\/$/, "")}/auth/me`, {
@@ -20,13 +20,40 @@ export const getRequestAuthUser = async (request: NextRequest) => {
 		});
 
 		if (!response.ok) {
-			return null;
+			return response.status === 401 || response.status === 404
+				? null
+				: undefined;
 		}
 
-		const payload = (await response.json()) as { data?: AuthUser };
+		const payload: unknown = await response.json();
+		if (isAuthUser(payload)) return payload;
 
-		return payload.data ?? null;
+		if (
+			typeof payload === "object" &&
+			payload !== null &&
+			"data" in payload &&
+			isAuthUser(payload.data)
+		) {
+			return payload.data;
+		}
+
+		return undefined;
 	} catch {
-		return null;
+		return undefined;
 	}
+};
+
+const isAuthUser = (value: unknown): value is AuthUser => {
+	if (!value || typeof value !== "object") return false;
+	const user = value as Partial<AuthUser>;
+
+	return (
+		typeof user.id === "number" &&
+		typeof user.email === "string" &&
+		typeof user.firstName === "string" &&
+		typeof user.lastName === "string" &&
+		typeof user.status === "string" &&
+		Array.isArray(user.roles) &&
+		user.roles.every((role) => typeof role === "string")
+	);
 };

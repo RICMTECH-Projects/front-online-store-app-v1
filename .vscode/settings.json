@@ -1,0 +1,6 @@
+{
+	"tailwindCSS.lint.suggestCanonicalClasses": "error",
+	"editor.quickSuggestions": {
+		"strings": "on"
+	}
+}

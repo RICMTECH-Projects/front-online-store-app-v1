@@ -1,3 +1,4 @@
+import "server-only";
 import { cookies } from "next/headers";
 import type { NextResponse } from "next/server";
 import { AUTH_TOKEN_COOKIE } from "../constants/auth-cookie.constants";

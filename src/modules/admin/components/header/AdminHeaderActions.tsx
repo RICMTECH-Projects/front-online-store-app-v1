@@ -2,17 +2,14 @@
 
 import { Bell, LogOut } from "lucide-react";
 import { ADMIN_HEADER } from "@/modules/admin/constants/admin-layout.constants";
-import { useLogout } from "@/modules/auth/hooks/use-logout";
-import { useAuthStore } from "@/modules/auth/store/useAuthStore";
+import { useAuthStore, useLogout } from "@/modules/auth";
 import { AdminHeaderIconButton } from "./AdminHeaderIconButton";
 import { AdminHeaderSettingsLink } from "./AdminHeaderSettingsLink";
 import { AdminHeaderStoreLink } from "./AdminHeaderStoreLink";
 
 export const AdminHeaderActions = () => {
 	const logout = useLogout();
-	const canEditProfile = useAuthStore((state) =>
-		state.roles.includes("ADMIN"),
-	);
+	const canEditProfile = useAuthStore((state) => state.roles.includes("ADMIN"));
 
 	return (
 		<div className="flex items-center gap-1">
@@ -23,7 +20,10 @@ export const AdminHeaderActions = () => {
 			{canEditProfile && (
 				<AdminHeaderSettingsLink label={ADMIN_HEADER.settings} />
 			)}
-			<AdminHeaderIconButton label={ADMIN_HEADER.logout} onClick={() => logout()}>
+			<AdminHeaderIconButton
+				label={ADMIN_HEADER.logout}
+				onClick={() => logout()}
+			>
 				<LogOut className="size-5" />
 			</AdminHeaderIconButton>
 		</div>
